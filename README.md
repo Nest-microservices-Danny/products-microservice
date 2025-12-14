@@ -1,5 +1,11 @@
 # Products microservice (NestJS + Prisma)
 
+<p align="center">
+  <a href="http://nestjs.com/" target="_blank" rel="noopener noreferrer">
+    <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="NestJS Logo" />
+  </a>
+</p>
+
 Microservicio TCP para gestionar productos usando NestJS 11 y Prisma con SQLite. Expone comandos para crear, listar, actualizar y desactivar productos mediante patrones de mensaje en lugar de endpoints HTTP.
 
 ## Stack y puntos clave
