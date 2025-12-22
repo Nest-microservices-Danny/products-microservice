@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../prisma.service';
@@ -36,11 +36,14 @@ export class ProductsService {
 
   async findOne(id: number) {
     const product = await this.prismaService.product.findUnique({
-      where: { id, available: true },
+      where: { id },
     });
-    if (!product) {
+    if (!product || !product.available) {
       //TODO: Custom Exception for microservices change NotFoundException to RpcException
-      throw new RpcException(`Product with ID ${id} not found`);
+      throw new RpcException({
+        status: HttpStatus.BAD_REQUEST,
+        message: `Product with ID ${id} not found`,
+      });
     }
     return product;
   }
