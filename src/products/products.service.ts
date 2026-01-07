@@ -67,4 +67,24 @@ export class ProductsService {
     //   where: { id },
     // });
   }
+
+  async validateProducts(ids: number[]) {
+    //eliminar duplicados de un arreglo de IDs de forma eficiente
+    ids = [...new Set(ids)];
+    const products = await this.prismaService.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+    if (products.length !== ids.length) {
+      throw new RpcException({
+        message: 'Some products where not found',
+        status: HttpStatus.BAD_REQUEST,
+      });
+    }
+
+    return products;
+  }
 }
